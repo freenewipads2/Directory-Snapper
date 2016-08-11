@@ -1,85 +1,77 @@
-
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <meta content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no" name="viewport" />
 </head>
-<?php
-  function getColor(){
-    $rand = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
-    $color = '#'.$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)];
-      return $color;
-    }
-?>
 <style>
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,300);
-body{
-	font-family: 'Raleway', sans-serif;
-	background: white;
-	text-align: center;
-	margin:0;
+    @import url(https://fonts.googleapis.com/css?family=Raleway:400,300);
+    * {
+        padding: 0%;
+        margin: 0%;
+        transition: all 0.3s;
+    }
 
-}
-a{
-	color: black;
-	text-decoration: none;
+    body {
+        font-family: 'Raleway', sans-serif;
+        background: white;
+        text-align: center;
+        margin: 0;
+    }
 
-}
-#container{
-	text-align: center;
-    display: inline-block;
-	background: white;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	margin-bottom: 10px;
-  transition: all 0.5s ease;
+    a {
+        color: black;
+        text-decoration: none;
+    }
 
-	width: 100%;
-}
-#container:hover{
-	opacity: 0.5;
-  transition: all 0.5s ease;
-}
-#menu{
-	position: fixed;
-	z-index: 100;
-	bottom: 0px;
-	width: 100%;
-	height: 50px;
-}
-#wrapper{
-	width: 100%;
-	padding-top:90px;
-  margin-left:5%;
-  text-align: center;
-}
+    #container {
+        text-align: center;
+        display: inline-block;
+        background: white;
+        padding: 5% 5% 5% 5%;
+        width: 20%;
+        word-wrap: break-word;
+    }
 
-#wrapperWeb{
-	text-align: center;
-	padding-left: 25%;
-	width: 50%;
-	padding-top:160px;
-}
-#headline{
-	font-size: 8vmin;
-	word-wrap: break-word;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	width: 100%;
-	background: white;
-	opacity: 0.8;
-	position: fixed;
-	top: 0px;
-  z-index: 9999;
+    #container:hover {
+        opacity: 0.8;
+        width: 25%;
+        cursor: pointer;
+    }
 
-}
-#top{
-  font-family: 'Open Sans', sans-serif;
-  font-size: 20pt;
-}
+    #wrapper {
+        width: 100%;
+        padding-top: 12%;
+        text-align: center;
+    }
 
+    #menu {
+        font-size: 8vw;
+        word-wrap: break-word;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        width: 100%;
+        background: white;
+        opacity: 0.8;
+        position: fixed;
+        top: 0px;
+        z-index: 9999;
+    }
 
+    #top {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 20pt;
+    }
+
+    @media only screen and (max-device-width: 480px) {
+        #container {
+            width: 100%;
+        }
+        #container:hover {
+            width: 100%;
+            opacity: 0.5;
+        }
+    }
 </style>
 
 <?php
@@ -90,36 +82,27 @@ Change user to add directorys or leave null.
 require "functions.php";
 function load(){
 
-$user = explode("/",getcwd());
-$user = $user[count($user)-1];
 $showLastUpdate = true;
 $showNumberOfFiles = true;
-$dirs = findAllDirs();//array_filter(glob('*'), 'is_dir');
-$dir = "";//$_SERVER['PATH_INFO'];
+$user = generateUser(); //Generates username for the folder
+$dirs = findAllDirs();
 
 
-	echo "<div id=headline>".strtoupper(printDefault($user))."</div>";
-	if(ismobile()){
-
+	echo "<div id=menu>".strtoupper(printDefault($user))."</div>";
 	echo "<div id=wrapper>";
-	}
-	else{
-		echo "<div id=wrapperWeb>";
-	}
-	echo "<div id=menu></div>";
 
 	foreach($dirs as $d)
 	{
 		echo "<div id=container style='background:".getColor().";'>";
-		echo "<a href=".$dir.$d."/".">";
+		echo "<a href=".$d."/".">";
 		echo "<span id='top'>".strtoupper($d)."</span>";
 		//////////////////////////////////////////////////////////////////////
 		if($showNumberOfFiles){
-			space();
+      space();
 			echo countFiles($d."/")." files in directory";
 		}
 		if($showLastUpdate){
-			space();
+      space();
 			lastUpdate($d);
 		}
 		//////////////////////////////////////////////////////////////////////
@@ -129,3 +112,18 @@ $dir = "";//$_SERVER['PATH_INFO'];
 	}
 load();
 ?>
+
+
+<script>
+var lastPos = 0;
+$(window).scroll(function() {
+    currentPos = $(this).scrollTop();
+    if (lastPos < currentPos) {
+        lastPos = currentPos;
+        menu.style.opacity = "0";
+    } else {
+        menu.style.opacity = "0.8";
+        lastPos = currentPos;
+    }
+});
+</script>

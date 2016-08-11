@@ -1,5 +1,9 @@
 <?php
-
+function getColor(){
+	$rand = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+	$color = '#'.$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)].$rand[rand(10,15)];
+		return $color;
+	}
 function countFiles($dir){
 	    if ($handle = opendir($dir)) {
 	    $i = 0;
@@ -18,7 +22,14 @@ function printDefault($v){
 		return $v;
 	}
 }
-
+function space(){
+	echo "<br>";
+}
+function generateUser(){
+	$user = explode("/",getcwd());
+	$user = $user[count($user)-1];
+	return $user;
+}
 function lastUpdate($d){
 						if(file_exists($d."/"."index.html")){
 						echo date ("F d Y H:i:s.", filemtime($d."/"."index.html"));
@@ -31,46 +42,8 @@ function lastUpdate($d){
 							echo "No index in directory";
 						}
 }
-
-function space(){
-	echo "<br>";
-}
-
-
-
 function findAllDirs(){
 	return array_filter(glob('*'), 'is_dir');
-}
-
-  function ismobile() {
-    $is_mobile = '0';
-
-    if(preg_match('/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/i', strtolower($_SERVER['HTTP_USER_AGENT']))) {
-        $is_mobile=1;
-    }
-
-    if((strpos(strtolower($_SERVER['HTTP_ACCEPT']),'application/vnd.wap.xhtml+xml')>0) or ((isset($_SERVER['HTTP_X_WAP_PROFILE']) or isset($_SERVER['HTTP_PROFILE'])))) {
-        $is_mobile=1;
-    }
-
-    $mobile_ua = strtolower(substr($_SERVER['HTTP_USER_AGENT'],0,4));
-    $mobile_agents = array('w3c ','acs-','alav','alca','amoi','andr','audi','avan','benq','bird','blac','blaz','brew','cell','cldc','cmd-','dang','doco','eric','hipt','inno','ipaq','java','jigs','kddi','keji','leno','lg-c','lg-d','lg-g','lge-','maui','maxo','midp','mits','mmef','mobi','mot-','moto','mwbp','nec-','newt','noki','oper','palm','pana','pant','phil','play','port','prox','qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar','sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-','tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp','wapr','webc','winw','winw','xda','xda-');
-
-    if(in_array($mobile_ua,$mobile_agents)) {
-        $is_mobile=1;
-    }
-
-    if (isset($_SERVER['ALL_HTTP'])) {
-        if (strpos(strtolower($_SERVER['ALL_HTTP']),'OperaMini')>0) {
-            $is_mobile=1;
-        }
-    }
-
-    if (strpos(strtolower($_SERVER['HTTP_USER_AGENT']),'windows')>0) {
-        $is_mobile=0;
-    }
-
-    return $is_mobile;
 }
 
 ?>
